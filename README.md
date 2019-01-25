@@ -12,7 +12,8 @@
    ex) collectionname =  'womad' 
 
 3. 전처리할 범위 지정
-     10000 개의 다규먼트를 전처리하고자 할 떄
+    10000 개의 다규먼트를 전처리하고자 할 때
+    
     ex) for i in range(0,10):
         startime = time.time()
         
