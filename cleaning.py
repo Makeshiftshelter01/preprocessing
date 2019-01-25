@@ -143,8 +143,7 @@ class cleaner:
                     cleaned = self.substr_with_patterns(list2string)
                     innerlist0.append(cleaned)
                 innerlist.append(innerlist0)
-            print('innerlist',innerlist)
-            print('len',len(innerlist))
+            
         return innerlist
 
         
