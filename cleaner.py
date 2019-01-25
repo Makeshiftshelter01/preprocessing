@@ -19,10 +19,10 @@ mem_before = process.memory_info().rss / 1024 / 1024
 
 
 
-for i in range(0,5):
+for i in range(100,105):
     startime = time.time()
     
-    total = 1000
+    total = 1
 
 
 #####  시작 전 config.1.ini 파일에서 저장할 collection 이름 설정할 것!!!    

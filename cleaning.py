@@ -57,38 +57,52 @@ class cleaner:
     # 시간과 추천을 제외한 전처리 패턴과 전처리를 관리하는 함수
     def substr_with_patterns(self, list2string):
         oripatterns = [
-            r'[\n]*',
-            r'[\"\#\●\/\"\!\?\/\★\$\&\@\%\~\💙\<\>\ㅣ\★\[\]\(\)\{\}\.\=/+\-\_\:\;\*\^\\ud83d]*',
-            r'[ \t\r\n\xa0]*',
-            r'[\>\-\~\※]*',
-            r'╰( ´•ω•)つ──☆ °.*•。',
-            r'[A-Z|a-z|0-9|ㅗㅠㅡㅜ♬♪/.]*',
-            r'[ㄱ-ㅎ|ㅏ-ㅣ]*',
-            r'[0-9]*',
-            r'[A-Z|a-z]*\\\\',
-            r'(.)\1{5,}',
-            '[^\x00-\x7F\uAC00-\uD7AF]'
+            r'[A-Za-z\(\)\·ㄱ-ㅎ]+',
+            r'\s\d\w',
+            r'ㅠ|ㅜ|ㅡ|ㅗ|ㅇ|ㅎ|ㅋ|ㅉ|ㅁ|ㅈ',
+            r'[\t\xa0]*'
         ]
+        #    r'╰( ´•ω•)つ──☆ °.*•。',
+        #    r'[A-Z|a-z|0-9|ㅗㅠㅡㅜ]*',
+        #    r'[ㄱ-ㅎ|ㅏ-ㅣ]*',
+        #    r'\d+[가-힣]',
+        #    r'[A-Z|a-z]*\\\\',
+        #    r'(.)\1{5,}',
+        #     '[^\x00-\x7F\uAC00-\uD7AF]'
+        
+      
         patterns = oripatterns # 전처리 할 특수기호를 다양하게 조정하기 위해 변수에 저장
+        
         list2string = list2string # 전처리 할 텍스트
         terror = []
 
         # 댓글의 경우
         if self.feature == self.gd.creplies:
-            patterns.insert(2, r'[ㄱ-ㅎㅗㅠㅡㅜ좆븅신\.ᆢᆞ]*') # 3번째 순서(index상 2)로 ㅋ를 지우는 것이 필요함.
+            patterns.insert(2, r'좆븅신') # 3번째 순서(index상 2)로 ㅋ를 지우는 것이 필요함.
+        # r'[ㄱ-ㅎㅗㅠㅡㅜ좆븅신\.ᆢᆞ]*'
         # 링크의 경우
         elif self.feature == self.gd.clinks:
-            linkpatterns = r'[\!\?\/\★\$\&\@\%\~\[\]\(\)\{\}\.\,\=/+\-\_\:\;\*\^]*'
+            linkpatterns = r'[\!\?\/\★\$\&\@\%\~\[\]\(\)\{\}\,\=\+\-\_\:\;\*\^]'
             patterns[0] = linkpatterns
         # 그 외 콘텐트, 타이틀 등 나머지 항목의 경우
         else:
-            linkpatterns = r'[ \!\?\★\$\&\@\%\~\[\]\(\)\{\}\.\,\=\+\-\_\:\;\*\^\\ud83d]*'
+            linkpatterns = r'[ \!\?\★\$\&\@\%\~\[\]\(\)\{\}\,\=\+\-\_\:\;\*\^\\ud83d]'
             patterns[0] = linkpatterns
         
         # 패턴 전처리 (알 수 없는 패턴이 발견될 경우 error가 발생하기 때문에 try)
         for pattern in patterns:
             try:
                 list2string = re.sub(pattern, '', list2string)
+                list2string = re.sub(r'[\n]', ' ', list2string)
+                list2string = re.sub(r'[0-9A-Za-z]', ' ', list2string)
+                list2string = re.sub(r'\d+[가-힣]', ' ', list2string)
+                list2string = re.sub(r'[ \★\$\&\@\[\]\(\)\{\}\,\=\+\-\_\:\;\*\^\\ud83d]', ' ', list2string)
+                list2string = re.sub(r'[\?\%\!\#\,\"\-\&\~\^\/\>]', ' ', list2string)
+                list2string = re.sub(r'(\.)+', ' ', list2string)
+               # list2string = re.sub(r'[\.]', ' ', list2string)
+                list2string = re.sub('[^\x00-\x7F\uAC00-\uD7AF]', ' ', list2string)
+                
+
                 # list2string =re.sub(r'팩트폭격|보지놀이터|좆밥박제|신사임당|만화|타임스퀘어|복권','', list2string)  
             except TypeError as e:
                 terror.append(e)
