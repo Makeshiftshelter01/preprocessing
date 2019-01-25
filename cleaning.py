@@ -94,11 +94,11 @@ class cleaner:
             try:
                 list2string = re.sub(pattern, '', list2string)
                 list2string = re.sub(r'[\n]', ' ', list2string)
-                list2string = re.sub(r'[0-9A-Za-z]', ' ', list2string)
+                list2string = re.sub(r'(\.)+', ' ', list2string)
                 list2string = re.sub(r'\d+[가-힣]', ' ', list2string)
+                list2string = re.sub(r'[0-9A-Za-z]', ' ', list2string)
                 list2string = re.sub(r'[ \★\$\&\@\[\]\(\)\{\}\,\=\+\-\_\:\;\*\^\\ud83d]', ' ', list2string)
                 list2string = re.sub(r'[\?\%\!\#\,\"\-\&\~\^\/\>]', ' ', list2string)
-                list2string = re.sub(r'(\.)+', ' ', list2string)
                # list2string = re.sub(r'[\.]', ' ', list2string)
                 list2string = re.sub('[^\x00-\x7F\uAC00-\uD7AF]', ' ', list2string)
                 
