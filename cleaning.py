@@ -54,6 +54,7 @@ class cleaner:
         self.collection = collection 
         self.labels = labels
 
+
     # 시간과 추천을 제외한 전처리 패턴과 전처리를 관리하는 함수
     def substr_with_patterns(self, list2string):
         oripatterns = [
@@ -72,16 +73,15 @@ class cleaner:
         
       
         patterns = oripatterns # 전처리 할 특수기호를 다양하게 조정하기 위해 변수에 저장
+
+        
         
         list2string = list2string # 전처리 할 텍스트
         terror = []
 
-        # 댓글의 경우
-        if self.feature == self.gd.creplies:
-            patterns.insert(2, r'좆븅신') # 3번째 순서(index상 2)로 ㅋ를 지우는 것이 필요함.
-        # r'[ㄱ-ㅎㅗㅠㅡㅜ좆븅신\.ᆢᆞ]*'
+    
         # 링크의 경우
-        elif self.feature == self.gd.clinks:
+        if self.feature == self.gd.clinks:
             linkpatterns = r'[\!\?\/\★\$\&\@\%\~\[\]\(\)\{\}\,\=\+\-\_\:\;\*\^]'
             patterns[0] = linkpatterns
         # 그 외 콘텐트, 타이틀 등 나머지 항목의 경우
@@ -98,12 +98,10 @@ class cleaner:
                 list2string = re.sub(r'\d+[가-힣]', ' ', list2string)
                 list2string = re.sub(r'[0-9A-Za-z]', ' ', list2string)
                 list2string = re.sub(r'[ \★\$\&\@\[\]\(\)\{\}\,\=\+\-\_\:\;\*\^\\ud83d]', ' ', list2string)
-                list2string = re.sub(r'[\?\%\!\#\,\"\-\&\~\^\/\>]', ' ', list2string)
+                list2string = re.sub(r'[\?\%\!\#\"\-\&\~\^\/\>]', ' ', list2string)
                # list2string = re.sub(r'[\.]', ' ', list2string)
                 list2string = re.sub('[^\x00-\x7F\uAC00-\uD7AF]', ' ', list2string)
                 
-
-                # list2string =re.sub(r'팩트폭격|보지놀이터|좆밥박제|신사임당|만화|타임스퀘어|복권','', list2string)  
             except TypeError as e:
                 terror.append(e)
                 print('익셉션에서 처리 : ', e) 
@@ -126,6 +124,30 @@ class cleaner:
                 cleaned = self.substr_with_patterns(list2string)
                 innerlist.append(cleaned.split(','))
         return innerlist
+
+
+    # 댓글 전처리
+    def substr_reply(self, onegd):
+        innerlist = []
+        cleaned = None
+        
+        for i in range(len(onegd)):
+            if type(onegd[i]) == str:
+                list2string = onegd[i]
+                cleaned = self.substr_with_patterns(list2string)
+                innerlist.append(cleaned)
+            else:   
+                innerlist0 = []
+                for j in range(len(onegd[i])):    
+                    list2string = ','.join(onegd[i][j])
+                    cleaned = self.substr_with_patterns(list2string)
+                    innerlist0.append(cleaned)
+                innerlist.append(innerlist0)
+            print('innerlist',innerlist)
+            print('len',len(innerlist))
+        return innerlist
+
+        
     
     # 시간 전처리 1단계 - 날짜 텍스트만을 남기는 전처리.
     def substr_time_lv1(self, i, rawdata, gdidate, collection, labels):
@@ -259,8 +281,13 @@ class cleaner:
         # thumbup, cthumbdownl, cthumbupl 전처리
         elif self.feature == self.gd.thumbup or self.feature == self.gd.cthumbdownl or self.feature == self.gd.cthumbupl:
             self.listname = self.thumb(self.feature)           
-
-        # 댓글, 링크, 콘텐츠, 타이틀 등 나머지 항목 전처리               
+        
+        # 댓글
+        elif self.feature == self.gd.creplies:
+            self.listname = self.substr_reply(self.feature)
+       
+        
+        #  링크, 콘텐츠, 타이틀 등 나머지 항목 전처리               
         else:
             self.listname = self.substr_common(self.feature)
 
