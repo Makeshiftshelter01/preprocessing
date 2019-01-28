@@ -314,7 +314,7 @@ class tokenizer:
            
            a = twitter.pos(title[i])
            b = []
-           #print('title[i]',i,title[i])    
+           print('title[i]',i,title[i])    
            for j in range(len(a)):
                if a[j][1] != 'Punctuation':   # 오류로 'Punctuation'에 해당하는 튜플 제거 
                    b.append(a[j])
@@ -325,15 +325,15 @@ class tokenizer:
           
            #### ccontent 토큰화
            try:    
-               c = twitter.pos(ccontent[i])
+               c = twitter.pos(str(ccontent[i]))
                d = []
-            #   print('ccontent[i]',i, ccontent[i])
+               print('ccontent[i]',i, ccontent[i])
                for w in range(len(c)):     
                    if c[w][1] != 'Punctuation':  # 오류로 'Punctuation'에 해당하는 튜플 제거
                        d.append(c[w])
                        #print('4',w)
                T_OR_ccontent.append(d)
-               T_ccontent.append(twitter.morphs(ccontent[i]))
+               T_ccontent.append(twitter.morphs(str(ccontent[i])))
 
 
            except RuntimeError as e:
@@ -342,6 +342,7 @@ class tokenizer:
 
            ### 댓글 토큰화
            #print('creplies[i]',i,creplies[i])
+        
            if type(creplies[i]) == str:    # string형 댓글 토큰화
                a = [creplies[i]]           # string을 리스트로 변경
                e = twitter.pos(str(a))
