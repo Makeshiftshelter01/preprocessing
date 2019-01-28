@@ -58,7 +58,7 @@ class cleaner:
     # 시간과 추천을 제외한 전처리 패턴과 전처리를 관리하는 함수
     def substr_with_patterns(self, list2string):
         oripatterns = [
-            r'[A-Za-z\(\)\·ㄱ-ㅎ]+',
+            r'[A-Za-z\(\)\·\<\>ㄱ-ㅎ]+',
             r'\s\d\w',
             r'ㅠ|ㅜ|ㅡ|ㅗ|ㅇ|ㅎ|ㅋ|ㅉ|ㅁ|ㅈ',
             r'[\t\xa0]*'
