@@ -19,22 +19,22 @@ mem_before = process.memory_info().rss / 1024 / 1024
 
 
 
-for i in range(100,120):
+for i in range(1,2):
     startime = time.time()
     
-    total = 1000
+    total = 1
 
 
 #####  시작 전 config.1.ini 파일에서 저장할 collection 이름 설정할 것!!!    
 #####  부분에 전처리할 collection 이름 넣으세요
 
-    collectionname =  'realfmkorea' 
+    collectionname =  'ygosu' 
 
     start = total*i
     newdata = first(collectionname, start, total)  # start 부터 1000개씩 DB로부터 가져오기
     
     labels =newdata.temp(ilbe='ilbe', inven='inven_sungmok',cook='realcook',ruri='ruri',\
-    fmkorea='realfmkorea',clien='clien',womad='womad_sungmok',theqoo='realtheqoo',mlbpark='mlbpark') 
+    fmkorea='realfmkorea',clien='clien',womad='womad_sungmok',theqoo='realtheqoo',mlbpark='mlbpark',ygosu='ygosu') 
 
 
     # 데이터 가져오기

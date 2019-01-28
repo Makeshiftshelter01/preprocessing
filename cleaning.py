@@ -33,7 +33,7 @@ class first:
         gd = getElement(result)  
         return gd
 
-    def temp(self, ilbe, inven,cook,ruri,fmkorea,clien,womad,theqoo,mlbpark): 
+    def temp(self, ilbe, inven,cook,ruri,fmkorea,clien,womad,theqoo,mlbpark,ygosu): 
         ilbe = ilbe
         inven = inven
         cook = cook
@@ -43,7 +43,8 @@ class first:
         womad = womad
         theqoo = theqoo
         mlbpark = mlbpark
-        return ilbe,inven,cook,ruri,fmkorea,clien,womad,theqoo,mlbpark
+        ygosu = ygosu
+        return ilbe,inven,cook,ruri,fmkorea,clien,womad,theqoo,mlbpark,ygosu
 
 # 전처리 class
 class cleaner:
@@ -186,12 +187,19 @@ class cleaner:
             toDatetype = datetime.strptime(cleaned, '%Y-%m-%d %H%M%S')
 
         # clien
-        elif collection == labels[5]:
+        elif collection == labels[5]: 
             cleaned =re.sub('수정일 : 2018-06-20 16:57:03','', cleaned)
             cleaned =cleaned.lstrip()
             cleaned =cleaned[:19]
             toDatetype = datetime.strptime(cleaned, '%Y-%m-%d %H:%M:%S')
         
+        # ygosu
+        elif collection == labels[9]: 
+            cleaned =re.sub('DATE :','', cleaned)
+            cleaned =cleaned.lstrip()
+            cleaned =cleaned[:19]
+            toDatetype = datetime.strptime(cleaned, '%Y-%m-%d %H:%M:%S')
+
         # ruriweb
         elif collection == labels[3]:
             cleaned = cleaned.lstrip()
@@ -314,7 +322,7 @@ class tokenizer:
            
            a = twitter.pos(title[i])
            b = []
-           print('title[i]',i,title[i])    
+           #print('title[i]',i,title[i])    
            for j in range(len(a)):
                if a[j][1] != 'Punctuation':   # 오류로 'Punctuation'에 해당하는 튜플 제거 
                    b.append(a[j])
@@ -327,7 +335,7 @@ class tokenizer:
            try:    
                c = twitter.pos(str(ccontent[i]))
                d = []
-               print('ccontent[i]',i, ccontent[i])
+              # print('ccontent[i]',i, ccontent[i])
                for w in range(len(c)):     
                    if c[w][1] != 'Punctuation':  # 오류로 'Punctuation'에 해당하는 튜플 제거
                        d.append(c[w])
