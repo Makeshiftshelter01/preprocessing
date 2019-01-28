@@ -20,7 +20,7 @@ mem_before = process.memory_info().rss / 1024 / 1024
 # 시작 전 ini 파일에서 collection 설정할 것!!!
 
 total = 1000
-for i in range(0,59):
+for i in range(0,6):
     startime = time.time()
     
     # 값 설정
