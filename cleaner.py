@@ -28,7 +28,7 @@ for i in range(1,2):
 #####  시작 전 config.1.ini 파일에서 저장할 collection 이름 설정할 것!!!    
 #####  부분에 전처리할 collection 이름 넣으세요
 
-    collectionname =  'ygosu' 
+    collectionname =  'womad_sungmok' 
 
     start = total*i
     newdata = first(collectionname, start, total)  # start 부터 1000개씩 DB로부터 가져오기

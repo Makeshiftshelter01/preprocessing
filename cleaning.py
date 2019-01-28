@@ -200,23 +200,30 @@ class cleaner:
             cleaned =cleaned[:19]
             toDatetype = datetime.strptime(cleaned, '%Y-%m-%d %H:%M:%S')
 
-        # ruriweb
-        elif collection == labels[3]:
+        # ruriweb, womad
+        elif collection == labels[3] or collection == labels[6]:
             cleaned = cleaned.lstrip()
-            toDatetype = datetime.strptime(cleaned, '%Y.%m.%d %H:%M:%S')
+            if collection == labels[3]:
+                toDatetype = datetime.strptime(cleaned, '%Y.%m.%d %H:%M:%S')
+            elif collection == labels[6]:
+                toDatetype = datetime.strptime(cleaned, '%Y-%m-%d %H:%M:%S')
 
-        # ilbe, Fmkorea, inven 
+
+        # fmkorea,mlbpark,inven
+        elif collection == labels[4] or collection == labels[8] or collection == labels[1]:
+            cleaned = cleaned.lstrip()
+            cleaned = cleaned +':00'
+            if collection == labels[4]:
+                toDatetype = datetime.strptime(cleaned, '%Y.%m.%d %H:%M:%S')
+            elif collection == labels[8] or collection == labels[1]:
+                toDatetype = datetime.strptime(cleaned, '%Y-%m-%d %H:%M:%S')
+        # ilbe
         else:
             cleaned = cleaned.lstrip()
             cleaned = cleaned[:11]
             cleaned = cleaned +' 00:00:00'
-
-            if collection == labels[0] or collection == labels[7]:
-                toDatetype = datetime.strptime(cleaned , '%Y.%m.%d %H:%M:%S')
-            elif collection == labels[4]:
-                toDatetype = datetime.strptime(cleaned , '%Y.%m.%d %H:%M:%S')
-            elif collection == labels[1] or collection == labels[6] or collection == labels[8]:
-                toDatetype = datetime.strptime(cleaned , '%Y-%m-%d %H:%M:%S')
+            toDatetype = datetime.strptime(cleaned , '%Y.%m.%d %H:%M:%S')
+           
         
         return toDatetype
 
