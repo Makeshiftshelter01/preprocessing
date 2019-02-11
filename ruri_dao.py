@@ -107,7 +107,7 @@ class CrwalingDAO:
         
         cnct = ConnectTo(data[host],int(data['port']),data['database'],data['collection'])
         cnct.MongoDB()
-        cursor = cnct.m_collection.find({}).sort([('_id',-1)]).skip(int(start)).limit(int(n))
+        cursor = cnct.m_collection.find({}).sort([('_id',1)]).skip(int(start)).limit(int(n))
         
         result = []
         for l in cursor:
